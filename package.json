@@ -1,0 +1,17 @@
+{
+  "name": "robot-simulation",
+  "version": "1.0.0",
+  "description": "robot simualation",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha tests --recursive --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "prompt": "^1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0"
+  }
+}
