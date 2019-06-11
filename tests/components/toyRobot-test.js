@@ -1,7 +1,7 @@
 
-var chai = require('chai');
-var expect = chai.expect; 
-let toyRobot = require('../../components/toyRobot');
+const chai = require('chai');
+const expect = chai.expect; 
+const toyRobot = require('../../components/toyRobot');
 
 
 describe('toyRobot', function() {
@@ -9,11 +9,11 @@ describe('toyRobot', function() {
 
     expect(toyRobot).to.be.a('function');
   });
-  it('method toyRobot.result should return an object', function() {
+  it('method toyRobot.parsedCommand should return an object', function() {
     let newToyRobot= new toyRobot("");
     expect(newToyRobot.parsedCommand()).to.be.a('object');
   });
-  it('Component should return an object of  three elements when a valid place command has been entered ', function() {
+  it('method toyRobot.parsedCommand should return an object of  three elements when a valid place command has been entered ', function() {
     var newToyRobot= new toyRobot();
     const input= "PLACE 0,0,NORTH";
     expect(newToyRobot.parsedCommand(input)).to.be.a('object');
@@ -22,7 +22,7 @@ describe('toyRobot', function() {
     expect(newToyRobot.parsedCommand(input)).to.have.property('y',0);
     expect(newToyRobot.parsedCommand(input)).to.have.property('f','NORTH');
   });
-  it('Component should return command property with value invalid when a invalid place command has been entered ', function() {
+  it('method toyRobot.parsedCommand should return command property with value invalid when a invalid place command has been entered ', function() {
     var newToyRobot= new toyRobot();
     const input="PLACEx 0,0,NORTH";
     expect(newToyRobot.parsedCommand(input)).to.be.a('object');
@@ -35,14 +35,14 @@ describe('toyRobot', function() {
     expect(newToyRobot.parsedCommand(input3)).to.have.property('command','INVALID');
   });
 
-  it('Component should not accept any commands until a place command has been issued ', function() {
+  it('method toyRobot.parsedCommand should not accept any commands until a place command has been issued ', function() {
     var newToyRobot= new toyRobot();
     const input="MOVE";
     expect(newToyRobot.parsedCommand(input)).to.be.a('object');
     expect(newToyRobot.parsedCommand(input)).to.have.property('command','INVALID');
 
   });
-  it('Component should  accept commands after a place command has been issued ', function() {
+  it('method toyRobot.parsedCommand should  accept commands after a place command has been issued ', function() {
     var newToyRobot= new toyRobot();
     const input= "PLACE 0,0,NORTH";
     const input2="MOVE";
@@ -52,7 +52,7 @@ describe('toyRobot', function() {
     expect(newToyRobot.parsedCommand(input3)).to.have.property('command','LEFT');
 
   });
-  it('Component should have a method that checks if input is correct format', function() {
+  it('method toyRobot.parsedCommand should have a method that checks if input is correct format', function() {
     var newToyRobot= new toyRobot(["place 0,0,0"]);
     expect(newToyRobot.checkFormat()).to.equal(0);
 

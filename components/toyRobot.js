@@ -12,14 +12,16 @@ function ToyRobot() {
   }
   
   ToyRobot.prototype.parsedCommand = function(input='') {
+
       let resultCommand={};
-      const command=input.split(' ');
+      const command=input.toUpperCase().split(' ');
       const length=command.length;
       const F=['NORTH','SOUTH','EAST','WEST'];
       const suportedCommands=["PLACE","MOVE","LEFT","RIGHT","REPORT"];
       const isInCommandList=suportedCommands.indexOf(command[0]);
       const startedStatus=this.start;
       
+     
       if (length===2 && command[0]==='PLACE') {
           resultCommand['command']='PLACE';
           const values = command[1].split(',');
