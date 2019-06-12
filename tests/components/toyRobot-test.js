@@ -63,12 +63,28 @@ describe('toyRobot', function() {
   });
   // Test toyRobot.executeCommand method
 
-  it('method toyRobot.execute command ', function() {
+  it('method toyRobot.executes executes a valid  place command ', function() {
     var newToyRobot= new toyRobot();
-    const input= "PLACE 0,0,NORTH";
+    const input= "PLACE 4,5,NORTH";
     const parsedCommand=newToyRobot.parsedCommand(input);
-    expect(newToyRobot.executeCommand(parsedCommand)).to.equal('Place succesfully completed');
-
+    expect(newToyRobot.executeCommand(parsedCommand)).to.have.property('message','Place succesfully completed');
+    expect(newToyRobot.executeCommand(parsedCommand)).to.deep.include({ "pos": { 'x': 4,"y":5,"f":"NORTH" } });
   });
-
+  it('method toyRobot.executes executes an invalide place command  with out of bounds x or y value ', function() {
+    var newToyRobot= new toyRobot();
+    const input= "PLACE -1,5,NORTH";
+    const parsedCommand=newToyRobot.parsedCommand(input);
+    expect(newToyRobot.executeCommand(parsedCommand)).to.have.property('message','Place command was unsuccessful');
+    expect(newToyRobot.executeCommand(parsedCommand)).to.deep.include({ "pos": { "x": 0,"y":0,"f":"" } });
+  });
+  it('method toyRobot.executes executes an valid move command ', function() {
+    var newToyRobot= new toyRobot();
+    const input= "PLACE 3,5,WEST";
+    const input2= "MOVE";
+    const parsedCommand=newToyRobot.parsedCommand(input);
+    const parsedCommand2=newToyRobot.parsedCommand(input2);
+    expect(newToyRobot.executeCommand(parsedCommand)).to.have.property('message','Place succesfully completed');
+    expect(newToyRobot.executeCommand(parsedCommand2)).to.deep.include({ "pos": { 'x': 2,"y":5,"f":"WEST" } });
+    // expect(newToyRobot.executeCommand(parsedCommand2)).to.deep.include({ "pos": { 'x': 1,"y":2,"f":"NORTH" } });
+  });
 });

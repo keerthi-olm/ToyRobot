@@ -1,4 +1,3 @@
-
 function ToyRobot() {
   // this.input=input
   this.start=false;
@@ -8,22 +7,68 @@ function ToyRobot() {
   this.minY=0;
   this.currentX=0;
   this.currentY=0;
-  this.currentFacing=['NORTH','SOUTH','EAST','WEST'] ; //0=north,1=south,2=east,3=west
+  this.currentFacing='' ;
+  this.facing=['NORTH','SOUTH','EAST','WEST'] ; //0=north,1=south,2=east,3=west
   this.suportedCommands=["PLACE","MOVE","LEFT","RIGHT","REPORT"];
 
-  this.checkNextMove = function(nextMove){
-
-  }
 
 
   this.executeCommand = function(command={"command":"PLACE"}) {
     let fn;
+    let value=1;
+    let move=false;
+    let message='Place command was unsuccessful';
+    let currentPos;
     let actions = {
-      'PLACE': function (command) {
+      'PLACE':  (command) =>{
+        // console.log(command.f);
+        if (command.x>=this.minX && command.x<=this.maxX && command.y>=this.minY && command.y<=this.maxY) move=true;
+   
+     if(move) {
+       this.currentX=command.x,  this.currentY=command.y,  this.currentFacing=command.f;
+       message='Place succesfully completed';
+
+     }
+       currentPos=this.getCurrentPosition();
+       
+        return {'message':message,'pos':currentPos};
+      },
+      'MOVE':  (command) => {
+         const f=this.currentFacing;
+         const orientationIndex=this.facing.indexOf(f);
+         console.log( orientationIndex);
+         switch (orientationIndex) {
+          case 0: { //North
+            if (this.currentY<5) {++this.currentY;message='Move succesfully completed';}
+            break;
+          }
+          case 1: { //South
+            if (this.currentY>0) {--this.currentY;message='Move succesfully completed';}
+            break;
+          }
+          case 2: {  //East
+            
+            if (this.currentX<5) {++this.currentX;message='Move succesfully completed';}
+            break;
+          }
+          case 3: {  //West
+            if (this.currentX>0) {--this.currentX;message='Move succesfully completed';}
+          
+            break;
+          }
+          default: {
+            
+          }
+        }
+
+        // if (this.currentY<5) {++this.currentY;message='Move succesfully completed';}
+        currentPos=this.getCurrentPosition();
         
-        return 'Place succesfully completed';
+        
+        return {'message':message,'pos':currentPos};
       },
       'default': function (command) {
+        // console.log(command);
         return 'Default item';
       }
     };
@@ -43,6 +88,12 @@ function ToyRobot() {
     return fn(command);
     
     }
+
+    this.getCurrentPosition = function() {
+     
+      return {"x":this.currentX,"y":this.currentY,"f":this.currentFacing}
+    }
+
   this.filterIntt = function(value) {
       if (/^[-+]?(\d+|Infinity)$/.test(value)) {
         return Number(value);
@@ -54,13 +105,14 @@ function ToyRobot() {
   
   ToyRobot.prototype.parsedCommand = function(input='') {
 
-      let resultCommand={};
+      let resultCommand={"command":"","x":0,"y":0,"f":0};
       const command=input.toUpperCase().split(' ');
       const length=command.length;
-      const F= this.currentFacing;
+      const F= this.facing;
       const suportedCommands=this.suportedCommands;
       const isInCommandList=suportedCommands.indexOf(command[0]);
       const start=this.start;
+      let message='';
 
       
      
@@ -87,13 +139,14 @@ function ToyRobot() {
      
       if (isInCommandList===-1 || this.start===false) { resultCommand={"command":"INVALID"} } else {
         // execute command
-
+        message=this.executeCommand(resultCommand);
+        
       }
       return resultCommand ;
     }
   
 
-  
+
   
   
   module.exports = ToyRobot;
