@@ -1,5 +1,5 @@
 function ToyRobot() {
-  // this.input=input
+  // Init settings
   this.start=false;
   this.maxX=5;
   this.minX=0;
@@ -11,9 +11,7 @@ function ToyRobot() {
   this.facing=['NORTH','SOUTH','EAST','WEST'] ; //0=north,1=south,2=east,3=west
   this.suportedCommands=["PLACE","MOVE","LEFT","RIGHT","REPORT"];
 
-
-
-  this.executeCommand = function(command={"command":"PLACE"}) {
+  this.executeCommand = function(command) { // Execute commands PLACE,MOVE,LEFT,RIGHT,REPORT
     let fn;
     let value=1;
     let move=false;
@@ -21,37 +19,35 @@ function ToyRobot() {
     let currentPos;
     let actions = {
       'PLACE':  (command) =>{
-        // console.log(command.f);
         if (command.x>=this.minX && command.x<=this.maxX && command.y>=this.minY && command.y<=this.maxY) move=true;
    
-     if(move) {
-       this.currentX=command.x,  this.currentY=command.y,  this.currentFacing=command.f;
-       message='Place succesfully completed';
-
-     }
-       currentPos=this.getCurrentPosition();
-       
+        if(move) {
+          this.currentX=command.x,  this.currentY=command.y,  this.currentFacing=command.f;
+          message='Place succesfully completed';
+          }
+        currentPos=this.getCurrentPosition();
         return {'message':message,'pos':currentPos};
       },
       'MOVE':  (command) => {
          const f=this.currentFacing;
          const orientationIndex=this.facing.indexOf(f);
          console.log( orientationIndex);
-         switch (orientationIndex) {
-          case 0: { //North
+         switch (orientationIndex) {  // Depending on the orientation  increment/decremnet x y values.
+                                      // And make sure the robot does not fall of the table
+          case 0: { //Traveling North
             if (this.currentY<5) {++this.currentY;message='Move succesfully completed';}
             break;
           }
-          case 1: { //South
+          case 1: { //Traveling South
             if (this.currentY>0) {--this.currentY;message='Move succesfully completed';}
             break;
           }
-          case 2: {  //East
+          case 2: {  //Traveling East
             
             if (this.currentX<5) {++this.currentX;message='Move succesfully completed';}
             break;
           }
-          case 3: {  //West
+          case 3: {  //Traveling West
             if (this.currentX>0) {--this.currentX;message='Move succesfully completed';}
           
             break;
@@ -60,10 +56,7 @@ function ToyRobot() {
             
           }
         }
-
-        // if (this.currentY<5) {++this.currentY;message='Move succesfully completed';}
         currentPos=this.getCurrentPosition();
-        
         
         return {'message':message,'pos':currentPos};
       },
@@ -71,33 +64,25 @@ function ToyRobot() {
         const compass=['WEST','NORTH','EAST','SOUTH']
         const f=this.currentFacing;
         let orientationIndex=compass.indexOf(f);
-
-        console.log( orientationIndex);
-
-        (orientationIndex > 0) ? --orientationIndex : orientationIndex=3;
-
-        console.log(compass[orientationIndex]);
+        (orientationIndex > 0) ? --orientationIndex : orientationIndex=3; // Rotate left based on an index value
         this.currentFacing=compass[orientationIndex];
         currentPos=this.getCurrentPosition();
         message='Move succesfully completed';
         return {'message':message,'pos':currentPos};
        },
-      'RIGHT':  (command) => { 
+      'RIGHT':  (command) => {  //Rotate right
         const compass=['WEST','NORTH','EAST','SOUTH']
         const f=this.currentFacing;
         let orientationIndex=compass.indexOf(f);
 
-        
+        (orientationIndex < 3) ? ++orientationIndex : orientationIndex=0; // Rotate right based on an index value
 
-        (orientationIndex < 3) ? ++orientationIndex : orientationIndex=0;
-
-        console.log(compass[orientationIndex]);
         this.currentFacing=compass[orientationIndex];
         currentPos=this.getCurrentPosition();
         message='Rotate succesfully completed'
         return {'message':message,'pos':currentPos};        
       },
-      'REPORT': (command) => {
+      'REPORT': (command) => { // get report
   
         message='Report succesfully completed';
         currentPos=this.getCurrentPosition();
@@ -115,9 +100,7 @@ function ToyRobot() {
       fn = actions[command.command];
     } else {
       // otherwise we'll assign the default
-      // also the same as drinks.default
-      // it's just a little more consistent using square
-      // bracket notation everywhere
+      //Does nothing at the moment
       fn = actions['default'];
     }
 
@@ -131,7 +114,7 @@ function ToyRobot() {
       return {"x":this.currentX,"y":this.currentY,"f":this.currentFacing}
     }
 
-  this.filterIntt = function(value) {
+  this.filterIntt = function(value) { // Regex to check for numbers
       if (/^[-+]?(\d+|Infinity)$/.test(value)) {
         return Number(value);
       } else {
