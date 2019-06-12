@@ -67,6 +67,43 @@ function ToyRobot() {
         
         return {'message':message,'pos':currentPos};
       },
+      'LEFT':  (command) => { //Rotate left
+        const compass=['WEST','NORTH','EAST','SOUTH']
+        const f=this.currentFacing;
+        let orientationIndex=compass.indexOf(f);
+
+        console.log( orientationIndex);
+
+        (orientationIndex > 0) ? --orientationIndex : orientationIndex=3;
+
+        console.log(compass[orientationIndex]);
+        this.currentFacing=compass[orientationIndex];
+        currentPos=this.getCurrentPosition();
+        message='Move succesfully completed';
+        return {'message':message,'pos':currentPos};
+       },
+      'RIGHT':  (command) => { 
+        const compass=['WEST','NORTH','EAST','SOUTH']
+        const f=this.currentFacing;
+        let orientationIndex=compass.indexOf(f);
+
+        
+
+        (orientationIndex < 3) ? ++orientationIndex : orientationIndex=0;
+
+        console.log(compass[orientationIndex]);
+        this.currentFacing=compass[orientationIndex];
+        currentPos=this.getCurrentPosition();
+        message='Rotate succesfully completed'
+        return {'message':message,'pos':currentPos};        
+      },
+      'REPORT': (command) => {
+  
+        message='Report succesfully completed';
+        currentPos=this.getCurrentPosition();
+        return {'message':message,'pos':currentPos};  
+
+       },
       'default': function (command) {
         // console.log(command);
         return 'Default item';
@@ -140,6 +177,7 @@ function ToyRobot() {
       if (isInCommandList===-1 || this.start===false) { resultCommand={"command":"INVALID"} } else {
         // execute command
         message=this.executeCommand(resultCommand);
+        
         
       }
       return resultCommand ;

@@ -87,4 +87,27 @@ describe('toyRobot', function() {
     expect(newToyRobot.executeCommand(parsedCommand2)).to.deep.include({ "pos": { 'x': 2,"y":5,"f":"WEST" } });
     // expect(newToyRobot.executeCommand(parsedCommand2)).to.deep.include({ "pos": { 'x': 1,"y":2,"f":"NORTH" } });
   });
+  it('method toyRobot.executes executes an left rotate ', function() {
+    var newToyRobot= new toyRobot();
+    const input= "PLACE 3,5,WEST";
+    const input2= "LEFT";
+    const parsedCommand=newToyRobot.parsedCommand(input);
+    const parsedCommand2=newToyRobot.parsedCommand(input2);
+    expect(newToyRobot.executeCommand(parsedCommand)).to.have.property('message','Place succesfully completed');
+    expect(newToyRobot.executeCommand(parsedCommand2)).to.deep.include({ "pos": { 'x': 3,"y":5,"f":"SOUTH" } });
+    // expect(newToyRobot.executeCommand(parsedCommand2)).to.deep.include({ "pos": { 'x': 1,"y":2,"f":"NORTH" } });
+  });
+  it('method toyRobot.executes executes an right rotate and report ', function() {
+    var newToyRobot= new toyRobot();
+    const input= "PLACE 3,5,NORTH";
+    const input2= "RIGHT";
+    const input3= "REPORT";
+    const parsedCommand=newToyRobot.parsedCommand(input);
+    const parsedCommand2=newToyRobot.parsedCommand(input2);
+    const parsedCommand3=newToyRobot.parsedCommand(input3);
+    expect(newToyRobot.executeCommand(parsedCommand)).to.have.property('message','Place succesfully completed');
+    expect(newToyRobot.executeCommand(parsedCommand2)).to.deep.include({ "pos": { 'x': 3,"y":5,"f":"EAST" } });
+    expect(newToyRobot.executeCommand(parsedCommand3)).to.deep.include({ "pos": { 'x': 3,"y":5,"f":"EAST" } });
+    // expect(newToyRobot.executeCommand(parsedCommand2)).to.deep.include({ "pos": { 'x': 1,"y":2,"f":"NORTH" } });
+  });
 });
