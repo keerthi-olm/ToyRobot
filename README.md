@@ -3,8 +3,11 @@ Files :
 
 
 /app.js   - Main app file
+
 /input    - Test data
+
 /tests/components/toyRobot-test.js    - Mocha tests
+
 /component/toyRobot.js   - ToyRobot component
 
 
