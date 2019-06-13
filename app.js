@@ -1,20 +1,15 @@
-"use strict"
+// "use strict"
 const toyRobot = require('./components/toyRobot');
-const standard_input = process.stdin;
+const b='my val';
 
-console.log("Please enter your robot commands");
+const newToyRobot= new toyRobot();
 
-
-standard_input.on('data', function (data) {
-
-    // User input exit.
-    if(data.toString().trim() === 'exit'){
-        // Program exit.
-        console.log("User input complete, program exit.");
-        // process.exit();
-    }else
-    {
-        // Print user input in console.
-        console.log('User Input Data : ' + data);
-    }
-});
+var lineReader = require('readline').createInterface({
+    input: require('fs').createReadStream('input.txt')
+  });
+  
+  lineReader.on('line', function (line) {
+    console.log('Command:', line);
+    let a=newToyRobot.parseCommand(line);
+    console.log(a);
+  });

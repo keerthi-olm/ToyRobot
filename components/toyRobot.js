@@ -31,7 +31,6 @@ function ToyRobot() {
       'MOVE':  (command) => {
          const f=this.currentFacing;
          const orientationIndex=this.facing.indexOf(f);
-         console.log( orientationIndex);
          switch (orientationIndex) {  // Depending on the orientation  increment/decremnet x y values.
                                       // And make sure the robot does not fall of the table
           case 0: { //Traveling North
@@ -123,7 +122,7 @@ function ToyRobot() {
     }
   }
   
-  ToyRobot.prototype.parsedCommand = function(input='') {
+  ToyRobot.prototype.parseCommand  = function(input='') {
 
       let resultCommand={"command":"","x":0,"y":0,"f":0};
       const command=input.toUpperCase().split(' ');
@@ -165,10 +164,6 @@ function ToyRobot() {
       }
       return resultCommand ;
     }
-  
-
-
-  
   
   module.exports = ToyRobot;
   
