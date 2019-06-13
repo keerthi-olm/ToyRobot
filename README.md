@@ -1,5 +1,7 @@
-# ToyRobot
-files :
+# ToyRobot - Simple Robot app developed in a TDD approach 
+Files :
+
+
 /app.js   - Main app file
 /input    - Test data
 /tests/components/toyRobot-test.js    - Mocha tests
