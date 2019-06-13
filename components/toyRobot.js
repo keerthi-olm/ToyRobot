@@ -1,3 +1,9 @@
+"use strict"
+
+/**
+ *usage :   The method ToyRobot.prototype.parseCommand  will accept commands for the robot.
+ *  
+ */
 function ToyRobot() {
   // Init settings
   this.start=false;
@@ -122,8 +128,8 @@ function ToyRobot() {
     }
   }
   
-  ToyRobot.prototype.parseCommand  = function(input='') {
-
+  ToyRobot.prototype.parseCommand  = function(input='') { // Accepts a string , does a  Parse  for validity then issue valid commands to the robot
+      
       let resultCommand={"command":"","x":0,"y":0,"f":0};
       const command=input.toUpperCase().split(' ');
       const length=command.length;
@@ -132,9 +138,7 @@ function ToyRobot() {
       const isInCommandList=suportedCommands.indexOf(command[0]);
       const start=this.start;
       let message='';
-
-      
-     
+   
       if (length===2 && command[0]==='PLACE') {
           resultCommand['command']='PLACE';
           const values = command[1].split(',');
@@ -162,7 +166,7 @@ function ToyRobot() {
         
         
       }
-      return resultCommand ;
+      return {'resultCommand': resultCommand,'response':message} ;
     }
   
   module.exports = ToyRobot;
